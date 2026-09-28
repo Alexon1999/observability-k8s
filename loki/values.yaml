@@ -1,15 +1,13 @@
-deploymentMode: Monolithic
+deploymentMode: SingleBinary
 
 loki:
-  commonConfig:
-    replication_factor: 1
-
-  ring:
-    kvstore:
-      store: inmemory
+  auth_enabled: false
 
   commonConfig:
     replication_factor: 1
+
+  storage:
+    type: filesystem
 
   schemaConfig:
     configs:
@@ -21,20 +19,12 @@ loki:
           prefix: loki_index_
           period: 24h
 
-  storage:
-    type: filesystem
-
-  pattern_ingester:
-    enabled: true
-
-  limits_config:
-    allow_structured_metadata: true
-    volume_enabled: true
-
 singleBinary:
   replicas: 1
 
-# Désactiver les autres modes
+gateway:
+  enabled: false
+
 backend:
   replicas: 0
 
@@ -44,42 +34,8 @@ read:
 write:
   replicas: 0
 
-ingester:
-  replicas: 0
-
-querier:
-  replicas: 0
-
-queryFrontend:
-  replicas: 0
-
-queryScheduler:
-  replicas: 0
-
-distributor:
-  replicas: 0
-
-compactor:
-  replicas: 0
-
-indexGateway:
-  replicas: 0
-
-bloomPlanner:
-  replicas: 0
-
-bloomBuilder:
-  replicas: 0
-
-bloomGateway:
-  replicas: 0
-
 chunksCache:
   enabled: false
 
 resultsCache:
   enabled: false
-
-gateway:
-  enabled: true
-  replicas: 1
